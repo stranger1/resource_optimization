@@ -34,10 +34,11 @@ double Simplex::distance(Point &a, Point &b)
 
 bool Simplex::QuitCase(Simplex& s, double eps)
 {
-    if (distance(s.m_array[0],s.m_array[1])<eps)
-        return true;
-    else
-        return false;
+    for (unsigned i=0; i<n; i++)
+        for (unsigned j=0; j<n; j++)
+            if (i!=j && distance(s.get_vertex(i), s.get_vertex(j)>eps))
+                    return false;
+    return true;
 }
 
 double Simplex::func(Point a)   //TODO: function generator
@@ -45,12 +46,6 @@ double Simplex::func(Point a)   //TODO: function generator
     return (a.coord[0] + a.coord[2]);
 }
 
-void Simplex::reflect()
-{
-    //TODO
-}
-
-//TODO: implement operators
 unsigned Point::n;
 Point Point::operator +=(Point& a)
 {

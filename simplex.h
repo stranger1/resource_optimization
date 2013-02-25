@@ -39,6 +39,8 @@ public:
     void set_h(Point h) {p_h = h;}
     bool QuitCase(Simplex& simplex, double eps);
     void sort();
+    Point get_vertex(unsigned i) {return m_array[i];}
+    void set_vertex_h(Point new_h) {m_array[m_array.size() = new_h];}
 private:
     double distance(Point& a, Point& b);
     std::vector<Point> m_array;
