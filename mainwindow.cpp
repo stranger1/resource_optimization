@@ -29,17 +29,21 @@ Point MainWindow::simplex_min(Simplex &smplx) { //number of simplex vertexes: N_
     while(!smplx.QuitCase(smplx, eps))
     {
         smplx.sort();
-        f_l = func(smplx.get_l());
-        f_g = func(smplx.get_g());
-        f_h = func(smplx.get_h());
-        smplx.set_reflected(smplx.get_c()*(1 + alpha) - smplx.get_h() * alpha); //test reflection
-        f_reflected = func(smplx.get_reflected());
+        f_l = smplx.func(smplx.get_l());
+        f_g = smplx.func(smplx.get_g());
+        f_h = smplx.func(smplx.get_h());
+        Point a = (smplx.get_c()*(1 + alpha)); Point b = (smplx.get_h() * alpha);
+        smplx.set_reflected(a - b);
+//        smplx.set_reflected((smplx.get_c()*(1 + alpha)) - (smplx.get_h() * alpha)); //test reflection
+        f_reflected = smplx.func(smplx.get_reflected());
         if (f_l < f_reflected && f_reflected < f_g) theta = alpha;
-        if (f_relflected <= f_l) theta = gamma;
+        if (f_reflected <= f_l) theta = gamma;
         if (f_g <= f_reflected && f_reflected < f_h)
             theta = beta;
         else if(f_reflected >= f_h) theta = -beta;
-        smplx.set_vertex_h(smplx.get_h() + (smplx.get_c() - smplx.get_h())*(1 + theta));
+        Point temp = (smplx.get_c() - smplx.get_h())*(1 + theta);
+        smplx.set_vertex_h(smplx.get_h() + temp);
+//        smplx.set_vertex_h(smplx.get_h() + (smplx.get_c() - smplx.get_h())*(1 + theta));
     }
     return smplx.get_l();
 }

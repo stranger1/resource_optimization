@@ -11,9 +11,9 @@ public:
     std::vector<double> coord;
     Point operator+= (Point& a);
     Point operator/= (double d);
-    Point operator+ (Point& a, Point& b);
-    Point operator- (Point& a, Point& b);
-    Point operator* (Point& a, double d);
+    Point operator+ (Point& a);
+    Point operator- (Point& a);
+    Point operator* (double d);
     double operator[] (unsigned i) {return coord[i];}
 };
 
@@ -40,9 +40,9 @@ public:
     bool QuitCase(Simplex& simplex, double eps);
     void sort();
     Point get_vertex(unsigned i) {return m_array[i];}
-    void set_vertex_h(Point new_h) {m_array[m_array.size() = new_h];}
+    void set_vertex_h(Point new_h) {m_array[m_array.size()] = new_h;}
 private:
-    double distance(Point& a, Point& b);
+    double distance(Point a, Point b);
     std::vector<Point> m_array;
     Point reflected;
     Point p_c, p_l, p_g, p_h; //h - point at which function has the biggesst value; g - -||- second biggest value; l - -||- lowest value

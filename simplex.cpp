@@ -22,7 +22,7 @@ void Simplex::sort()
     set_c(c);
 }
 
-double Simplex::distance(Point &a, Point &b)
+double Simplex::distance(Point a, Point b)
 {
     double result = 0;
     for (unsigned i=0; i<m_array.size(); i++)
@@ -34,9 +34,9 @@ double Simplex::distance(Point &a, Point &b)
 
 bool Simplex::QuitCase(Simplex& s, double eps)
 {
-    for (unsigned i=0; i<n; i++)
-        for (unsigned j=0; j<n; j++)
-            if (i!=j && distance(s.get_vertex(i), s.get_vertex(j)>eps))
+    for (unsigned i=0; i<s.m_array.size(); i++)
+        for (unsigned j=0; j<s.m_array.size(); j++)
+            if (i!=j && distance(s.get_vertex(i), s.get_vertex(j))>eps)
                     return false;
     return true;
 }
@@ -63,26 +63,26 @@ Point Point::operator /=(double d)
     return *b;
 }
 
-Point Point::operator +(Point& a, Point& b)
+Point Point::operator +(Point& a)
 {
     Point* c = new Point();
     for (unsigned i=0; i<n; i++)
-        c->coord[i] = a[i] + b[i];
+        c->coord[i] = a.coord[i] + this->coord[i];
     return *c;
 }
 
-Point Point::operator -(Point& a, Point& b)
+Point Point::operator -(Point& a)
 {
     Point* c = new Point();
     for (unsigned i=0; i<n; i++)
-        c->coord[i] = a[i] - b[i];
+        c->coord[i] = this->coord[i] - a.coord[i];
     return *c;
 }
 
-Point Point::operator *(Point& a, double d)
+Point Point::operator *(double d)
 {
     Point* c = new Point();
     for (unsigned i=0; i<n; i++)
-        c->coord[i] = a[i]*d;
+        c->coord[i] = this->coord[i]*d;
     return *c;
 }
