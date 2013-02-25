@@ -9,12 +9,14 @@ class Point
 public:
     static unsigned n;
     std::vector<double> coord;
-    Point operator+= (Point& a);
-    Point operator/= (double d);
-    Point operator+ (Point& a);
+    const Point operator+ (const Point& a) const;
+    const Point operator/ (const double d) const;
+//    Point operator+ (Point& a);
     Point operator- (Point& a);
     Point operator* (double d);
     double operator[] (unsigned i) {return coord[i];}
+    Point& operator+=(const Point& b);
+    Point& operator/=(const double b);
 };
 
 
