@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,20 +22,16 @@ Point MainWindow::simplex_min(Simplex &smplx) { //number of simplex vertexes: N_
     double theta;
     double f_l, f_g, f_h, f_c, f_reflected;
 
-    std::vector<unsigned> M_count(N_DIM+1);
-    for (unsigned i=0; i<=N_DIM; i++)
-        M_count[i] = 0;
     Point::n = N_DIM;
-    M = 1.65*N_DIM + 0.05*N_DIM*N_DIM;
     while(!smplx.QuitCase(smplx, eps))
     {
         smplx.sort();
         f_l = smplx.func(smplx.get_l());
         f_g = smplx.func(smplx.get_g());
         f_h = smplx.func(smplx.get_h());
-        Point a = (smplx.get_c()*(1 + alpha)); Point b = (smplx.get_h() * alpha);
-        smplx.set_reflected(a - b);
-//        smplx.set_reflected((smplx.get_c()*(1 + alpha)) - (smplx.get_h() * alpha)); //test reflection
+//        Point a = (smplx.get_c()*(1 + alpha)); Point b = (smplx.get_h() * alpha);
+//        smplx.set_reflected(a - b);
+        smplx.set_reflected((smplx.get_c()*(1 + alpha)) - (smplx.get_h() * alpha)); //test reflection
         f_reflected = smplx.func(smplx.get_reflected());
         if (f_l < f_reflected && f_reflected < f_g) theta = alpha;
         if (f_reflected <= f_l) theta = gamma;
@@ -46,4 +43,17 @@ Point MainWindow::simplex_min(Simplex &smplx) { //number of simplex vertexes: N_
 //        smplx.set_vertex_h(smplx.get_h() + (smplx.get_c() - smplx.get_h())*(1 + theta));
     }
     return smplx.get_l();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    N_DIM = 2;
+    Point::n = N_DIM;
+    Point b;
+    b.coord[0] = 2; b.coord[1] = 0;
+    Simplex smplx(b, 1);
+    Point answ = simplex_min(smplx);
+    qDebug()<<answ.coord[0];
+    qDebug()<<answ.coord[1];
+
 }
