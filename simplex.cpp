@@ -79,8 +79,16 @@ bool Simplex::QuitCase(Simplex& s, double eps)
     return true;
 }
 
+bool Simplex::point_satisfies_restriction(const Point &a)
+{
+    double d;
+
+    return true;
+}
+
 double Simplex::func(Point a)   //TODO: function generator
 {
+    const unsigned N_DIM = Point::n;
     return (1 + pow(a.coord[0], 2.0) + pow(a.coord[1],2.0));
 }
 

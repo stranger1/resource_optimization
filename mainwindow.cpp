@@ -1,12 +1,23 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QTextCodec>
+#include "addresource.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    model_resource = new QStandardItemModel(0, 3, this);
+    model_resource->setHorizontalHeaderItem(0, new QStandardItem("Resource name"));
+    model_resource->setHorizontalHeaderItem(1, new QStandardItem("In stock"));
+    model_resource->setHorizontalHeaderItem(2, new QStandardItem("Cost per item"));
+    ui->tableView_resource->setModel(model_resource);
+
+//    QStandardItemModel *model_product = new QStandardItemModel(0, 2, this);
+
 }
 
 MainWindow::~MainWindow()
@@ -14,8 +25,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-Point MainWindow::simplex_min(Simplex &smplx) { //number of simplex vertexes: N_DIM + 1
-    const double eps = 0.01;
+Point MainWindow::simplex_min(Simplex &smplx, double eps) { //number of simplex vertexes: N_DIM + 1
     const double alpha = 1.0;
     const double beta = 0.5;
     const double gamma = 2.0;
@@ -52,8 +62,16 @@ void MainWindow::on_pushButton_clicked()
     Point b;
     b.coord[0] = 2; b.coord[1] = 0;
     Simplex smplx(b, 1);
-    Point answ = simplex_min(smplx);
+    Point answ = simplex_min(smplx, 0.01);
     qDebug()<<answ.coord[0];
     qDebug()<<answ.coord[1];
+    qDebug()<<smplx.func(answ);
 
+}
+
+void MainWindow::on_push_add_resource_clicked()
+{
+    this->setEnabled(false);
+    AddResource *res_add = new AddResource(this);
+    res_add->show();
 }

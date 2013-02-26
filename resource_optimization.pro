@@ -12,9 +12,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    simplex.cpp
+    simplex.cpp \
+    addresource.cpp
 
 HEADERS  += mainwindow.h \
-    simplex.h
+    simplex.h \
+    addresource.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    addresource.ui
