@@ -61,13 +61,29 @@ bool Simplex::QuitCase(Simplex& s, double eps)
     return true;
 }
 
-
+bool Simplex::inc_allvertex_M()
+{
+    for (unsigned i=0; i<m_array.size(); i++)
+    {
+        if (!m_array[i].inc_M()) return true;
+    }
+    return false;
+}
 
 unsigned Point::n;
 
 Point::Point()
 {
     coord = std::vector<double>(n);
+    M=0;
+}
+
+bool Point::inc_M(unsigned M_max)
+{
+    if (++M <= M_max)
+        return true;
+    else
+        return false;
 }
 
 const Point operator+(Point& a, Point& b) //TODO: add operators

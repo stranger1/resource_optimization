@@ -39,7 +39,7 @@ Point MainWindow::simplex_min(Simplex &smplx, double eps) { //number of simplex 
 //        Point a = (smplx.get_c()*(1 + alpha)); Point b = (smplx.get_h() * alpha);
 //        smplx.set_reflected(a - b);
         Point reflected = 2*smplx.get_c() - smplx.get_h();
-        smplx.set_reflected(); //test reflection
+        smplx.set_reflected(reflected); //test reflection
 //        f_reflected = func(smplx.get_reflected());
         smplx.set_vertex_h(smplx.get_reflected());
         ++iter;

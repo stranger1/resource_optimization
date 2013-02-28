@@ -5,9 +5,12 @@
 
 class Point
 {
-public:
-    Point();
     unsigned M; //S2 - method
+public:
+    const unsigned get_M() {return M;}
+    void set_M(unsigned new_M) {M = new_M;}
+    bool inc_M(unsigned M_max); //increments M, returns true if M <= M_max
+    Point();
     static unsigned n;
     std::vector<double> coord;
     const Point operator+ (const Point& a) const;
@@ -44,7 +47,8 @@ public:
     void set_vertex(Point a, unsigned i) {m_array[i] = a;}
     const Point get_vertex(unsigned i) {return m_array[i];}
     const unsigned get_number_of_vertexes() {return m_array.size();}
-    void set_vertex_h(Point new_h) {m_array[m_array.size() - 1] = new_h;}
+    void set_vertex_h(Point new_h) {new_h.set_M(0); m_array[m_array.size() - 1] = new_h;}
+    void inc_allvertex_M();
     std::vector<Point> m_array;
 private:
     double distance(Point a, Point b);
