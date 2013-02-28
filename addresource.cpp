@@ -15,6 +15,7 @@ AddResource::~AddResource()
 
 void AddResource::on_okButton_clicked()
 {
-    parentWidget()->setEnabled(true);
+
+    mw->setEnabled(true);
     this->close();
 }

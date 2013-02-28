@@ -13,11 +13,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     simplex.cpp \
-    addresource.cpp
+    addresource.cpp \
+    resultwindow.cpp
 
 HEADERS  += mainwindow.h \
     simplex.h \
-    addresource.h
+    addresource.h \
+    resultwindow.h
 
 FORMS    += mainwindow.ui \
-    addresource.ui
+    addresource.ui \
+    resultwindow.ui

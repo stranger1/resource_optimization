@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <numeric>
 #include <QDebug>
+#include "mainwindow.h"
 Simplex::Simplex()
 {
 }
@@ -40,25 +41,6 @@ Simplex::Simplex(Point a, double t)
 //    return func(a) < func(b);
 //}
 //}
-void Simplex::sort()
-{
-    unsigned ar_size = m_array.size();   //sort
-    for (unsigned j=0; j<ar_size-1; j++)
-        for (unsigned i=0; i<ar_size-1; i++)
-            if (func(m_array[i]) > func(m_array[i+1]))
-                std::swap(m_array[i], m_array[i+1]);
-    set_h(m_array[ar_size-1]);   //set h,g,l
-    set_g(m_array[ar_size-2]);
-    set_l(m_array[0]);
-    Point c;     //calculate center of mass
-    for (unsigned i=0; i<ar_size-1; i++)
-        c += m_array[i];
-//    c = std::accumulate(m_array.begin(), m_array.end() - 1, 0) /(ar_size - 1);
-    c /= ar_size-1;
-    set_c(c);
-
-//    std::sort(m_array.begin(), m_array.end(), comparator_by_f);
-}
 
 double Simplex::distance(Point a, Point b)
 {
@@ -79,18 +61,7 @@ bool Simplex::QuitCase(Simplex& s, double eps)
     return true;
 }
 
-bool Simplex::point_satisfies_restriction(const Point &a)
-{
-    double d;
 
-    return true;
-}
-
-double Simplex::func(Point a)   //TODO: function generator
-{
-    const unsigned N_DIM = Point::n;
-    return (1 + pow(a.coord[0], 2.0) + pow(a.coord[1],2.0));
-}
 
 unsigned Point::n;
 

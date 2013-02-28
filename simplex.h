@@ -7,6 +7,7 @@ class Point
 {
 public:
     Point();
+    unsigned M; //S2 - method
     static unsigned n;
     std::vector<double> coord;
     const Point operator+ (const Point& a) const;
@@ -27,7 +28,6 @@ public:
     Simplex();
     Simplex(Point a, double t);
     Simplex(const std::vector<Point> &vertex);
-    double func(Point);
     void reduction();
     void reflect();
     Point& get_reflected() {return reflected;}
@@ -41,13 +41,13 @@ public:
     void set_g(Point g) {p_g = g;}
     void set_h(Point h) {p_h = h;}
     bool QuitCase(Simplex& simplex, double eps);
-    void sort();
-    Point get_vertex(unsigned i) {return m_array[i];}
+    void set_vertex(Point a, unsigned i) {m_array[i] = a;}
+    const Point get_vertex(unsigned i) {return m_array[i];}
+    const unsigned get_number_of_vertexes() {return m_array.size();}
     void set_vertex_h(Point new_h) {m_array[m_array.size() - 1] = new_h;}
-    bool point_satisfies_restriction(const Point &a);
+    std::vector<Point> m_array;
 private:
     double distance(Point a, Point b);
-    std::vector<Point> m_array;
     Point reflected;
     Point p_c, p_l, p_g, p_h; //h - point at which function has the biggesst value; g - -||- second biggest value; l - -||- lowest value
 };
