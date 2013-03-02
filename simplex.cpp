@@ -42,6 +42,14 @@ Simplex::Simplex(Point a, double t)
 //}
 //}
 
+void Simplex::reduction()
+{
+    for (unsigned i=1; i<m_array.size(); i++)
+    {
+        m_array[i] = (m_array[0] + m_array[i])/2;
+    }
+}
+
 double Simplex::distance(Point a, Point b)
 {
     double result = 0.0;
@@ -54,18 +62,19 @@ double Simplex::distance(Point a, Point b)
 
 bool Simplex::QuitCase(Simplex& s, double eps)
 {
-    for (unsigned i=0; i<s.m_array.size(); i++)
-        for (unsigned j=0; j<s.m_array.size(); j++)
-            if (i!=j && distance(s.get_vertex(i), s.get_vertex(j))>eps)
+//    for (unsigned i=0; i<s.m_array.size(); i++)
+//        for (unsigned j=0; j<s.m_array.size(); j++)
+//            if (i!=j && distance(s.get_vertex(i), s.get_vertex(j))>eps)
+    if (distance(s.get_vertex(0), s.get_vertex(1)) > eps)
                     return false;
     return true;
 }
 
-bool Simplex::inc_allvertex_M()
+bool Simplex::inc_allvertex_M(unsigned M_max)
 {
     for (unsigned i=0; i<m_array.size(); i++)
     {
-        if (!m_array[i].inc_M()) return true;
+        if (!m_array[i].inc_M(M_max)) return true;
     }
     return false;
 }

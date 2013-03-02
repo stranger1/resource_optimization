@@ -21,10 +21,10 @@ MainWindow::~MainWindow()
 }
 
 Point MainWindow::simplex_min(Simplex &smplx, double eps) { //number of simplex vertexes: N_DIM + 1
-    const double alpha = 1.0;
-    const double beta = 0.5;
-    const double gamma = 2.0;
-    double theta;
+//    const double alpha = 1.0;
+//    const double beta = 0.5;
+//    const double gamma = 2.0;
+//    double theta;
     double f_l, f_g, f_h, f_c, f_reflected;
     const int M_max = 1.65*N_DIM + 0.05*N_DIM*N_DIM;
 
@@ -38,12 +38,14 @@ Point MainWindow::simplex_min(Simplex &smplx, double eps) { //number of simplex 
         f_h = func(smplx.get_h());
 //        Point a = (smplx.get_c()*(1 + alpha)); Point b = (smplx.get_h() * alpha);
 //        smplx.set_reflected(a - b);
-        Point reflected = 2*smplx.get_c() - smplx.get_h();
-        smplx.set_reflected(); //test reflection
+        Point reflected = smplx.get_c()*2 - smplx.get_h();
+        smplx.set_reflected(reflected); //test reflection
 //        f_reflected = func(smplx.get_reflected());
         smplx.set_vertex_h(smplx.get_reflected());
         ++iter;
-        if (iter > 1000)
+        if (smplx.inc_allvertex_M(M_max))
+            smplx.reduction();
+        if (iter > 1500)
         {
             qDebug()<<"x="<<smplx.get_h().coord[0];
             qDebug()<<"y="<<smplx.get_h().coord[1];
@@ -51,6 +53,7 @@ Point MainWindow::simplex_min(Simplex &smplx, double eps) { //number of simplex 
         }
 //        smplx.set_vertex_h(smplx.get_h() + (smplx.get_c() - smplx.get_h())*(1 + theta));
     }
+    qDebug()<<"iterations"<<iter;
     return smplx.get_l();
 }
 
@@ -76,17 +79,18 @@ void MainWindow::sort_simplex(Simplex &smplx)
 
 bool MainWindow::point_satisfies_restriction(const Point &a)
 {
-    if (a.coord[0]*5 + a.coord[1]*20 < 100)
-        if (a.coord[0]*8 + a.coord[1]*13 < 50)
-            if (a.coord[0]*2 + a.coord[1]*1 < 20)
-                return true;
+    if (a.coord[0]*5 + a.coord[1]*8 < 190)
+        if (a.coord[0]*10 + a.coord[1]*5 < 200)
+            if (a.coord[0]*30 + a.coord[1]*20 < 904)
+                if (a.coord[0]*150 + a.coord[1]*200 < 4520)
+                    return true;
     return false;
 }
 
 double MainWindow::func(const Point &a)   //TODO: function generator
 {
     if (point_satisfies_restriction(a))
-        return (-150*a.coord[0] - 175*a.coord[1]);
+        return (-220*a.coord[0] - 225*a.coord[1]);
     else
         return 9999.99;
 }
@@ -98,7 +102,7 @@ void MainWindow::on_pushButton_clicked()
     Point b;
     b.coord[0] = 0; b.coord[1] = 0;
     Simplex smplx(b, 1);
-    Point answ = simplex_min(smplx, 0.1);
+    Point answ = simplex_min(smplx, 0.0001);
     qDebug()<<answ.coord[0];
     qDebug()<<answ.coord[1];
     qDebug()<<func(answ);
